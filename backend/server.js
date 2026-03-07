@@ -7,6 +7,7 @@ import {connectDb} from "./config/db.js"
 import {User} from "./models/User.js"
 
 import habitRouter from "./routes/habitsRoutes.js"
+import authRouter from "./routes/authRoutes.js"
 
 const app = express()
 connectDb()
@@ -22,6 +23,7 @@ app.use(async (req, res, next) => {
 })
 
 app.use("/api/habits", habitRouter)
+app.use("/api/auth", authRouter)
 
 dotenv.config()
 
