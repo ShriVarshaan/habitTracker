@@ -16,11 +16,11 @@ app.use(cookieParser())
 app.use(express.json())
 
 //manually adding in a user for testing purposes
-app.use(async (req, res, next) => {
-    const user = await User.findOne({email: "varshaanvijay@gmail.com"})
-    req.user = {_id: user._id}
-    next()
-})
+// app.use(async (req, res, next) => {
+//     const user = await User.findOne({email: "varshaanvijay@gmail.com"})
+//     req.user = {_id: user._id}
+//     next()
+// })
 
 app.use("/api/habits", habitRouter)
 app.use("/api/auth", authRouter)

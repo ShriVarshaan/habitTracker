@@ -1,6 +1,8 @@
 import {User} from "../models/User.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import dotenv from "dotenv"
+dotenv.config()
 
 //Redirecting within the api for testing purposes, change to frontend later
 export const signup = async (req, res, next) =>{
@@ -10,32 +12,30 @@ export const signup = async (req, res, next) =>{
     }
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
-    const newUser = new User({...req.body, password:hashedPassword})
-
+    const newUser = new User({...req.body, hash:hashedPassword})
     await newUser.save()
     const token = jwt.sign(
-        {id: user._id},
-        process.ENV.JWT_SECRET,
+        {id: newUser._id},
+        process.env.JWT_SECRET,
         {expiresIn: "7d"}
     )
 
-    res.cookie("token", token, {
-        httpOnly: true,
-        secure: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000
+    return res.status(201).json({
+        message: "created successfully",
+        token: token,
+        user: { id: newUser._id, email: newUser.email }
     })
-    return res.status(201).redirect("/api/habits")
 }
 
 export const login = async(req, res, next) => {
     try{
-        const user = await User.findOne({email: req.body.email})
+        const user = await User.findOne({email: req.body.email}).select('+hash')
 
         if(!user){
             return res.status(401).json({message: "Invalid credentials"})
         }
 
-        const match = bcrypt.compare(req.body.password, user.password)
+        const match = await bcrypt.compare(req.body.password, user.hash)
 
         if(!match){
             return res.status(401).json({message: "Invalid credentials"})
@@ -43,17 +43,15 @@ export const login = async(req, res, next) => {
 
         const token = jwt.sign(
             {id: user._id},
-            process.ENV.JWT_SECRET,
+            process.env.JWT_SECRET,
             {expiresIn: "7d"}
         )
 
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        })
-
-        return res.status(201).json({message: "Logged in successfully"})
+        return res.status(200).json({
+        message: "logged in",
+        token: token,
+        user: { id: user._id, email: user.email }
+    })
     } catch (err){
         next(err)
     }
