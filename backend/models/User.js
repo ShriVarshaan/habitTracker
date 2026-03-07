@@ -19,4 +19,12 @@ const userSchemaJoi = Joi.object({
 })
 
 const User = mongoose.model("User", userSchema)
-module.exports = {User, userSchemaJoi}
+
+// const trialUser = new User({email: "varshaanvijay@gmail.com", username: "hello there"})
+
+// trialUser.save()
+//     .catch((err) => {
+//         console.log(err)
+//     })
+
+export {User, userSchemaJoi}

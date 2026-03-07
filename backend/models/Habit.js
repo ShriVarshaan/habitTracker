@@ -1,4 +1,4 @@
-import mongoose, { trusted } from "mongoose"
+import mongoose from "mongoose"
 import Joi from "joi"
 
 const habitSchema = new mongoose.Schema({
@@ -19,4 +19,4 @@ const habitSchemaJoi = Joi.object({
 
 const Habit = mongoose.model("Habit", habitSchema)
 
-module.exports = {Habit, habitSchemaJoi}
+export {Habit, habitSchemaJoi}
