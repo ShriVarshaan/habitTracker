@@ -2,6 +2,7 @@ import express from "express"
 import { createHabit, getAllHabits, getHabitById } from "../controllers/habitsController.js"
 import passport from '../config/passport.js'
 import { validateHabit } from "../middleware/habit.js"
+import { completeHabit, deleteCompletion } from "../controllers/habitCompletionController.js"
 
 
 const router = express.Router()
@@ -12,5 +13,10 @@ router.route("/")
 
 router.route("/:id")
     .get(passport.authenticate("jwt", {session: false}), getHabitById)
+    .patch(passport.authenticate("jwt", {session: false}))
+
+router.route("/:id/complete")
+    .post(passport.authenticate("jwt", {session: false}), completeHabit)
+    .delete(passport.authenticate("jwt", {session: false}), deleteCompletion)
 
 export default router

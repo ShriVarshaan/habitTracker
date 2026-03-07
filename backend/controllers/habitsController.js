@@ -26,8 +26,6 @@ export const getHabitById = async (req, res, next) => {
     }
 
     if (habit.userId !== req.user._id){
-        console.log(habit.userId)
-        console.log(req.user._id)
         return res.status(401).json({message: "Unauthorised"})
     }
 
