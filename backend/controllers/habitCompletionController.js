@@ -1,5 +1,5 @@
-import { Habit } from "../models/Habit"
-import HabitComplete from "../models/HabitComplete"
+//import { Habit } from "../models/Habit"
+import HabitComplete from "../models/HabitComplete.js"
 
 export const completeHabit = async (req, res, next) => {
     try{
