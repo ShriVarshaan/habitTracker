@@ -32,7 +32,7 @@ export const login = async(req, res, next) => {
         const user = await User.findOne({email: req.body.email}).select('+hash')
 
         if(!user){
-            return res.status(401).json({message: "Invalid credentials"})
+            return res.status(404).json({message: "Invalid credentials"})
         }
 
         const match = await bcrypt.compare(req.body.password, user.hash)
