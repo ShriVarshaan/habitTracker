@@ -1,7 +1,7 @@
 //import { Habit } from "../models/Habit"
 import HabitComplete from "../models/HabitComplete.js"
 
-export const completeHabit = async (req, res, next) => {
+export const completeHabit = async (req, res) => {
     try{
         const date = new Date()
         date.setUTCHours(0,0,0,0)
@@ -13,7 +13,7 @@ export const completeHabit = async (req, res, next) => {
     }
 }
 
-export const deleteCompletion = async (req, res, next) => {
+export const deleteCompletion = async (req, res) => {
     try{
         const date = new Date()
         date.setUTCHours(0,0,0,0)
@@ -27,3 +27,9 @@ export const deleteCompletion = async (req, res, next) => {
         return res.status(400).json({message: "error"})
     }
 }
+
+// export const getCompletions = async (req, res, next) => {
+//     try{
+//         const completions = await HabitComplete.find({habitId})
+//     }
+// }

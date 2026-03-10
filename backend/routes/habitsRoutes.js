@@ -19,4 +19,7 @@ router.route("/:id/complete")
     .post(passport.authenticate("jwt", {session: false}), completeHabit)
     .delete(passport.authenticate("jwt", {session: false}), deleteCompletion)
 
+router.route("/:id/completions")
+    .get(passport.authenticate("jwt", {session: false}))
+
 export default router
